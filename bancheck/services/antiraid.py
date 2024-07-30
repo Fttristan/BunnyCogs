@@ -2,7 +2,7 @@
 
 import aiohttp
 from redbot.core import __version__ as redbot_version
-
+from addict import Dict
 from .dto.lookup_result import LookupResult
 
 user_agent = (
@@ -13,18 +13,18 @@ user_agent = (
 class Antiraid:
     """Ban lookup for Antiraid."""
 
-    SERVICE_NAME = "Antiraid"
+    SERVICE_NAME = "Bunnybot Gban"
     SERVICE_API_KEY_REQUIRED = False
-    SERVICE_URL = "https://banapi.derpystown.com/"
+    SERVICE_URL = "http://dash.bunnybot.org:8080/_/"
     SERVICE_HINT = None
-    BASE_URL = "https://banapi.derpystown.com"
+    BASE_URL = "http://dash.bunnybot.org:8080/api/collections"
 
     @staticmethod
     async def lookup(user_id: int, _api_key: str) -> LookupResult:
         """Perform user lookup on Antiraid."""
         try:
             async with aiohttp.ClientSession() as session, session.get(
-                f"{Antiraid.BASE_URL}/bans/{user_id}",
+                f"{Antiraid.BASE_URL}/bans/records/?filter=userid='{user_id}'&fields=banned,usertag,userid,caseid,reason,proof,bandate",
                 headers={
                     "user-agent": user_agent,
                 },
@@ -43,19 +43,21 @@ class Antiraid:
                 # {
                 #     "banned": false
                 # }
+                print(resp.json)
                 data = await resp.json()
-                if "banned" in data:
+                if 'items' in data and len(data['items']) > 0:
                     # "banned" will always be in a successful lookup
-                    if data["banned"]:
+                    if data['items'][0]['banned']:
                         return LookupResult(
                             Antiraid.SERVICE_NAME,
                             "ban",
-                            reason=data["reason"],
-                            proof_url=data.get("proof", None),
+                            reason=data['items'][0]['reason'],
+                            proof_url=data.get("items""proof", None),
                         )
                     return LookupResult(Antiraid.SERVICE_NAME, "clear")
-                # Otherwise, failed lookup
-                return LookupResult(Antiraid.SERVICE_NAME, "error")
+                    # Otherwise, failed lookup
+                else:
+                   return LookupResult(Antiraid.SERVICE_NAME, "clear") 
 
         except aiohttp.ClientConnectionError:
             return LookupResult(
