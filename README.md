@@ -1,5 +1,5 @@
 # BunnyCogs, A Remake of PhasecoreX's PCXCogs
-FTTristan's Remake of PCXCogs https://github.com/PhasecoreX/PCXCogs [Red-DiscordBot](https://github.com/Cog-Creators/Red-DiscordBot/releases).
+FTTristan's Remake of PCXCogs https://github.com/PhasecoreX/PCXCogs . Cogs made for [Red-DiscordBot](https://github.com/Cog-Creators/Red-DiscordBot/releases).
 
 [![Red-DiscordBot](https://img.shields.io/badge/red--discordbot-v3-red)](https://github.com/Cog-Creators/Red-DiscordBot/releases)
 
