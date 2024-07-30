@@ -33,6 +33,6 @@ PCXCogs: https://github.com/PhasecoreX/PCXCogs
 
 ### BanCheck
 
-Automatically check users against FTTristn's global ban list on server join. Other features include automatic banning, manually checking users already on the server, and sending ban reports to supported services.
+Automatically check users against FTTristan's global ban list on server join. Other features include automatic banning, manually checking users already on the server, and sending ban reports to supported services.
 
 
