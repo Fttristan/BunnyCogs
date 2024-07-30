@@ -22,7 +22,7 @@ Finally, load your cog(s):
 [p]load <cog_name>
 ```
 
-##Please Support PhasecoreX!
+## Please Support PhasecoreX!
 
 [![BuyMeACoffee](https://img.shields.io/badge/buy%20me%20a%20coffee-donate-orange)](https://buymeacoff.ee/phasecorex)
 [![PayPal](https://img.shields.io/badge/paypal-donate-blue)](https://paypal.me/pcx)
