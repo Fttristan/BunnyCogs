@@ -2,7 +2,6 @@
 
 import aiohttp
 from redbot.core import __version__ as redbot_version
-from addict import Dict
 from .dto.lookup_result import LookupResult
 
 user_agent = (
