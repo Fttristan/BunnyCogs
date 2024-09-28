@@ -1,4 +1,4 @@
-"""Package for BanCheck cog."""
+"""Package for Setup cog."""
 
 import json
 from pathlib import Path
@@ -12,7 +12,7 @@ with Path(__file__).parent.joinpath("info.json").open() as fp:
 
 
 async def setup(bot: Red) -> None:
-    """Load BanCheck cog."""
+    """Load Setup cog."""
     cog = Setup(bot)
     await cog.initialize()
     await bot.add_cog(cog)
