@@ -1,7 +1,7 @@
 from redbot.core import commands, Config
 import discord
 
-class BanCheckSetup(commands.Cog):
+class Setup(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.config = Config.get_conf(self, identifier=1234567890)
