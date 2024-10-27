@@ -26,7 +26,7 @@ class Setup2(commands.Cog):
 
         if msg.content.lower() == "yes":
             await ctx.send("Enabling gban service...")
-            command = self.bot.get_command("bancheckset service enable antiraid")
+            command = bot.get_command("bancheckset service enable antiraid")
             if command:
                 await ctx.invoke(command)
             else:
