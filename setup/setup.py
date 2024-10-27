@@ -1,7 +1,7 @@
 from redbot.core import commands, Config
 import discord
 
-class Setup(commands.Cog):
+class Setup2(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.config = Config.get_conf(self, identifier=1234567890)
