@@ -26,7 +26,11 @@ class Setup2(commands.Cog):
 
         if msg.content.lower() == "yes":
             await ctx.send("Enabling gban service...")
-            await ctx.invoke(self.bot.get_command("bancheckset service enable antiraid"))
+            command = self.bot.get_command("bancheckset service enable antiraid")
+            if command:
+                await ctx.invoke(command)
+            else:
+                await ctx.send("Error in setup(enable portion).")
         else:
             return await ctx.send("Setup aborted.")
 
