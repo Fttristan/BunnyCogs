@@ -27,6 +27,7 @@ class Antiraid:
                 f"{Antiraid.BASE_URL}/bans/records?filter=userid='{user_id}'&fields=banned,usertag,userid,caseid,reason,proof,bandate",
                 headers={
                     "user-agent": user_agent,
+                    "auth": "bunnybot2.0"
                 },
             ) as resp:
                 # Response 200 examples:
