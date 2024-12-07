@@ -733,7 +733,7 @@ class BanCheck(commands.Cog):
                         proof = f" ([proof]({response.proof_url}))"
 
                     description += error(
-                        f"**{response.service}:** {response.reason}{proof}\n"
+                        f"**{response.service}:** REASON: {response.reason}{proof}\n"
                     )
 
                 elif response.result == "clear":
