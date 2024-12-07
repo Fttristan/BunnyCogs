@@ -24,7 +24,7 @@ class Antiraid:
         """Perform user lookup on Antiraid."""
         try:
             async with aiohttp.ClientSession() as session, session.get(
-                f"{Antiraid.BASE_URL}/bans/records/?filter=userid='{user_id}'&fields=banned,usertag,userid,caseid,reason,proof,bandate",
+                f"{Antiraid.BASE_URL}/bans/records?filter=userid='{user_id}'&fields=banned,usertag,userid,caseid,reason,proof,bandate",
                 headers={
                     "user-agent": user_agent,
                 },
