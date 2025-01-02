@@ -742,7 +742,7 @@ class BanCheck(commands.Cog):
                 elif response.result == "error":
                     is_error = True
                     description += warning(
-                        f"**{response.service}:** Error - Check BBGban API status at: https://status.vrcband.com {response.reason if response.reason else 'No reason given'}\n"
+                        f"**{response.service}:** Error - Check BBGban API status at: https://status.bunnybot.org {response.reason if response.reason else 'No reason given'}\n"
                     )
 
                 else:
