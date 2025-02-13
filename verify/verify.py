@@ -95,17 +95,13 @@ class VerificationCog(commands.Cog):
                                         embed.add_field(name="VRChat ID", value=data['items'][0]['vrchat_id'])
                                         await data_channel.send(embed=embed)
                                 else:
-                                    if verification_channel:
-                                        await verification_channel.send(f"{member.mention}, please verify yourself at https://verify.vrcband.com/api/v1/lantern/consent/{api_key}")
+                                    await ctx.send(f"{member.mention}, please verify yourself at https://verify.vrcband.com/api/v1/lantern/consent/{api_key}")
                             else:
-                                if verification_channel:
-                                    await verification_channel.send(f"{member.mention}, please verify yourself at https://verify.vrcband.com/api/v1/lantern/consent/{api_key}")
+                                await ctx.send(f"{member.mention}, please verify yourself at https://verify.vrcband.com/api/v1/lantern/consent/{api_key}")
                         else:
-                            if verification_channel:
-                                await verification_channel.send(f"{member.mention}, please verify yourself at https://verify.vrcband.com/api/v1/lantern/consent/{api_key}")
+                            await ctx.send(f"{member.mention}, please verify yourself at https://verify.vrcband.com/api/v1/lantern/consent/{api_key}")
                     else:
-                        if verification_channel:
-                            await verification_channel.send(f"{member.mention}, please verify yourself at https://verify.vrcband.com/api/v1/lantern/consent/{api_key}")
+                        await ctx.send(f"{member.mention}, please verify yourself at https://verify.vrcband.com/api/v1/lantern/consent/{api_key}")
             except aiohttp.ClientConnectionError:
                 await ctx.send("Verification failed. Could not connect to host.")
             except aiohttp.ClientError as e:
