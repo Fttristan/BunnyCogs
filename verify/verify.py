@@ -64,7 +64,7 @@ class VerificationCog(commands.Cog):
                         "auth": "bunnybot2.0"
                     },
                 ) as resp:
-                    raw_data = await resp.text()  # Get raw response text
+                    raw_data = await resp.json()  # Get raw response text
                     print(f"Raw response: {raw_data}")
                     try:
                         data = await resp.json()
@@ -132,7 +132,7 @@ class VerificationCog(commands.Cog):
                         "auth": "bunnybot2.0"
                     },
                 ) as resp:
-                    raw_data = await resp.text()  # Get raw response text
+                    raw_data = await resp.json()  # Get raw response text
                     print(f"Raw response: {raw_data}")
                     try:
                         data = await resp.json()
