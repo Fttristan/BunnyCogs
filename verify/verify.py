@@ -3,7 +3,7 @@ import discord
 from redbot.core import commands, Config, checks
 from redbot.core.bot import Red
 
-class VerificationCog(commands.Cog):
+class Verify(commands.Cog):
     def __init__(self, bot: Red):
         self.bot = bot
         self.config = Config.get_conf(self, identifier=1234567890)

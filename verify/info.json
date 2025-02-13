@@ -1,26 +1,19 @@
 {
-    "name": "Verify",
     "author": [
-        "FTTristan (fttristan#0000)"
+        "FTTristan(FTTristan#0000)"
     ],
-    "short": "Verification with VRCBand!",
-    "description": "This cog allows server owners and admins to setup vrchat verification through VRCBand.",
-    "install_msg": "Thanks for installing Verify! For a quick rundown on how to get started with this cog, check out [the readme](https://github.com/Fttristan/BunnyCogs/tree/master/verify/README.md)",
+    "install_msg": "Thanks for installing Verify",
+    "name": "Verify",
+    "disabled": false,
+    "short": "Secure your server by making users verify their account with a VRCBand Account.",
+    "description": "Secure your server by making users verify their account with a VRCBand Account.",
     "tags": [
-        "auto",
-        "automated",
-        "automatic",
-        "ban",
-        "check",
-        "lookup",
-        "moderation",
-        "utility"
+        "email verification",
+        "email",
+        "verification"
     ],
-    "min_bot_version": "3.5.0",
-    "min_python_version": [
-        3,
-        11,
-        0
+    "requirements": [
+        "aiohttp"
     ],
-    "end_user_data_statement": "This cog does persistently store data or metadata about users."
+    "min_bot_version": "3.5.0"
 }
