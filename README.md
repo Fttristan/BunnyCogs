@@ -36,3 +36,7 @@ PCXCogs: https://github.com/PhasecoreX/PCXCogs
 Automatically check users against FTTristan's global ban list on server join. Other features include automatic banning, manually checking users already on the server, and sending ban reports to supported services.
 
 
+### Verify
+
+Verify With A VRCBand Account, API Key Required! DM @fttristan on discord for one.
+
