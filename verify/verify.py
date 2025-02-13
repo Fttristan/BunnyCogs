@@ -55,44 +55,52 @@ class VerificationCog(commands.Cog):
         redbot_version = "3.5"
         user_agent = f"Red-DiscordBot/{redbot_version} BanCheck (https://github.com/PhasecoreX/PCXCogs)"
 
-        async with aiohttp.ClientSession() as session:
-            async with session.get(
-                f"https://verify.vrcband.com/api/v1/discord/cog/data/{api_key}/{user_id}",
-                headers={
-                    "user-agent": user_agent,
-                    "auth": "bunnybot2.0"
-                },
-            ) as resp:
-                if resp.status == 200:
+        async with aiohttp.ClientSession() as client_session:
+            try:
+                async with client_session.get(
+                    f"http://api.bunnybot.org:8090/api/collections/discord_cog_list/records?filter=%28api_key%3D%27{api_key}%27%20%26%26%20discord_id%3D%27{user_id}%27%29",
+                    headers={"user-agent": user_agent},
+                ) as resp:
                     data = await resp.json()
+                    print(data)
                     if 'items' in data and len(data['items']) > 0:
-                        if data['items'][0]['discord_id'] == str(user_id):
-                            role_id = await self.config.guild(ctx.guild).verification_role()
-                            role = ctx.guild.get_role(role_id)
-                            if role:
-                                await ctx.author.add_roles(role)
-                                await ctx.send(f"Verification successful. {ctx.author.mention} has been given the {role.name} role.")
-                                # Send verification data
-                                data_channel_id = await self.config.guild(ctx.guild).data_channel()
-                                data_channel = ctx.guild.get_channel(data_channel_id)
-                                if data_channel:
-                                    embed = discord.Embed(
-                                        title="User Verified",
-                                        description=f"User {ctx.author.mention} has been verified.",
-                                        color=discord.Color.green()
-                                    )
-                                    embed.add_field(name="Discord User ID", value=ctx.author.id)
-                                    embed.add_field(name="Discord User Name", value=str(ctx.author))
-                                    embed.add_field(name="VRChat ID", value=data['items'][0]['vrchat_id'])
-                                    await data_channel.send(embed=embed)
+                        if data['items'][0]['api_key'] == api_key:
+                            if data['items'][0]['discord_id'] == str(user_id):
+                                role_id = await self.config.guild(ctx.guild).verification_role()
+                                role = ctx.guild.get_role(role_id)
+                                if role:
+                                    await ctx.author.add_roles(role)
+                                    await ctx.send(f"Verification successful. {ctx.author.mention} has been given the {role.name} role.")
+                                    # Send verification data
+                                    data_channel_id = await self.config.guild(ctx.guild).data_channel()
+                                    data_channel = ctx.guild.get_channel(data_channel_id)
+                                    if data_channel:
+                                        embed = discord.Embed(
+                                            title="User Verified",
+                                            description=f"User {ctx.author.mention} has been verified.",
+                                            color=discord.Color.green()
+                                        )
+                                        embed.add_field(name="Discord User ID", value=ctx.author.id)
+                                        embed.add_field(name="Discord User Name", value=str(ctx.author))
+                                        embed.add_field(name="VRChat ID", value=data['items'][0]['vrchat_id'])
+                                        await data_channel.send(embed=embed)
+                                else:
+                                    await ctx.send("Verification role not found.")
                             else:
-                                await ctx.send("Verification role not found.")
+                                await ctx.send("Verification failed. User ID does not match.")
                         else:
-                            await ctx.send("Verification failed. User ID does not match.")
+                            await ctx.send("Verification failed. API Key does not match.")
                     else:
                         await ctx.send("Verification failed. No items found.")
-                else:
-                    await ctx.send("Verification failed. API request unsuccessful.")
+            except aiohttp.ClientConnectionError:
+                await ctx.send("Verification failed. Could not connect to host.")
+            except aiohttp.ClientError:
+                await ctx.send("Verification failed. Client error occurred.")
+            except TypeError:
+                await ctx.send("Verification failed. Type error occurred.")
+            except KeyError:
+                await ctx.send("Verification failed. Key error occurred.")
+            await ctx.send("Verification failed. Response data malformed.")
 
     @commands.Cog.listener()
     async def on_member_join(self, member: discord.Member):
@@ -105,49 +113,62 @@ class VerificationCog(commands.Cog):
         verification_channel_id = await self.config.guild(guild).verification_channel()
         verification_channel = guild.get_channel(verification_channel_id)
 
-        async with aiohttp.ClientSession() as session:
-            async with session.get(
-                f"https://verify.vrcband.com/api/v1/discord/cog/data/{api_key}/{user_id}",
-                headers={
-                    "user-agent": user_agent,
-                    "auth": "bunnybot2.0"
-                },
-            ) as resp:
-                if resp.status == 200:
+        async with aiohttp.ClientSession() as client_session:
+            try:
+                async with client_session.get(
+                    f"http://api.bunnybot.org:8090/api/collections/discord_cog_list/records?filter=%28api_key%3D%27{api_key}%27%20%26%26%20discord_id%3D%27{user_id}%27%29",
+                    headers={"user-agent": user_agent},
+                ) as resp:
                     data = await resp.json()
+                    print(data)
                     if 'items' in data and len(data['items']) > 0:
-                        if data['items'][0]['discord_id'] == str(user_id):
-                            role_id = await self.config.guild(guild).verification_role()
-                            role = guild.get_role(role_id)
-                            if role:
-                                await member.add_roles(role)
-                                if verification_channel:
-                                    await verification_channel.send(f"Welcome {member.mention}! You have been automatically verified and given the {role.name} role.")
-                                # Send verification data
-                                data_channel_id = await self.config.guild(guild).data_channel()
-                                data_channel = guild.get_channel(data_channel_id)
-                                if data_channel:
-                                    embed = discord.Embed(
-                                        title="User Verified",
-                                        description=f"User {member.mention} has been verified.",
-                                        color=discord.Color.green()
-                                    )
-                                    embed.add_field(name="Discord User ID", value=member.id)
-                                    embed.add_field(name="Discord User Name", value=str(member))
-                                    embed.add_field(name="VRChat ID", value=data['items'][0]['vrchat_id'])
-                                    await data_channel.send(embed=embed)
+                        if data['items'][0]['api_key'] == api_key:
+                            if data['items'][0]['discord_id'] == str(user_id):
+                                role_id = await self.config.guild(guild).verification_role()
+                                role = guild.get_role(role_id)
+                                if role:
+                                    await member.add_roles(role)
+                                    if verification_channel:
+                                        await verification_channel.send(f"Welcome {member.mention}! You have been automatically verified and given the {role.name} role.")
+                                    # Send verification data
+                                    data_channel_id = await self.config.guild(guild).data_channel()
+                                    data_channel = guild.get_channel(data_channel_id)
+                                    if data_channel:
+                                        embed = discord.Embed(
+                                            title="User Verified",
+                                            description=f"User {member.mention} has been verified.",
+                                            color=discord.Color.green()
+                                        )
+                                        embed.add_field(name="Discord User ID", value=member.id)
+                                        embed.add_field(name="Discord User Name", value=str(member))
+                                        embed.add_field(name="VRChat ID", value=data['items'][0]['vrchat_id'])
+                                        await data_channel.send(embed=embed)
+                                else:
+                                    if verification_channel:
+                                        await verification_channel.send("Verification role not found.")
                             else:
                                 if verification_channel:
-                                    await verification_channel.send("Verification role not found.")
+                                    await verification_channel.send(f"{member.mention}, please verify yourself at https://verify.vrcband.com/api/v1/lantern/consent/{api_key}")
                         else:
                             if verification_channel:
                                 await verification_channel.send(f"{member.mention}, please verify yourself at https://verify.vrcband.com/api/v1/lantern/consent/{api_key}")
                     else:
                         if verification_channel:
                             await verification_channel.send(f"{member.mention}, please verify yourself at https://verify.vrcband.com/api/v1/lantern/consent/{api_key}")
-                else:
-                    if verification_channel:
-                        await verification_channel.send(f"{member.mention}, please verify yourself at https://verify.vrcband.com/api/v1/lantern/consent/{api_key}")
+            except aiohttp.ClientConnectionError:
+                if verification_channel:
+                    await verification_channel.send("Verification failed. Could not connect to host.")
+            except aiohttp.ClientError:
+                if verification_channel:
+                    await verification_channel.send("Verification failed. Client error occurred.")
+            except TypeError:
+                if verification_channel:
+                    await verification_channel.send("Verification failed. Type error occurred.")
+            except KeyError:
+                if verification_channel:
+                    await verification_channel.send("Verification failed. Key error occurred.")
+            if verification_channel:
+                await verification_channel.send("Verification failed. Response data malformed.")
 
 def setup(bot: Red):
     bot.add_cog(VerificationCog(bot))
