@@ -58,8 +58,11 @@ class VerificationCog(commands.Cog):
         async with aiohttp.ClientSession() as client_session:
             try:
                 async with client_session.get(
-                    f"http://api.bunnybot.org:8090/api/collections/discord_cog_list/records?filter=%28api_key%3D%27{api_key}%27%20%26%26%20discord_id%3D%27{user_id}%27%29",
-                    headers={"user-agent": user_agent},
+                    f"https://verify.vrcband.com/api/v1/discord/cog/data/{api_key}/{user_id}",
+                    headers={
+                        "user-agent": user_agent,
+                        "auth": "bunnybot2.0"
+                    },
                 ) as resp:
                     data = await resp.json()
                     print(data)
@@ -116,8 +119,11 @@ class VerificationCog(commands.Cog):
         async with aiohttp.ClientSession() as client_session:
             try:
                 async with client_session.get(
-                    f"http://api.bunnybot.org:8090/api/collections/discord_cog_list/records?filter=%28api_key%3D%27{api_key}%27%20%26%26%20discord_id%3D%27{user_id}%27%29",
-                    headers={"user-agent": user_agent},
+                    f"https://verify.vrcband.com/api/v1/discord/cog/data/{api_key}/{user_id}",
+                    headers={
+                        "user-agent": user_agent,
+                        "auth": "bunnybot2.0"
+                    },
                 ) as resp:
                     data = await resp.json()
                     print(data)
