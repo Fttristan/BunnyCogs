@@ -110,7 +110,6 @@ class VerificationCog(commands.Cog):
                 await ctx.send(f"Verification failed. Type error occurred: {e}")
             except KeyError as e:
                 await ctx.send(f"Verification failed. Key error occurred: {e}")
-            await ctx.send("Verification failed. Response data malformed.")
 
     @commands.Cog.listener()
     async def on_member_join(self, member: discord.Member):
@@ -188,8 +187,6 @@ class VerificationCog(commands.Cog):
             except KeyError as e:
                 if verification_channel:
                     await verification_channel.send(f"Verification failed. Key error occurred: {e}")
-            if verification_channel:
-                await verification_channel.send("Verification failed. Response data malformed.")
 
 def setup(bot: Red):
     bot.add_cog(VerificationCog(bot))
