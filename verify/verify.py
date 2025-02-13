@@ -64,7 +64,14 @@ class VerificationCog(commands.Cog):
                         "auth": "bunnybot2.0"
                     },
                 ) as resp:
-                    data = await resp.json()
+                    raw_data = await resp.text()  # Get raw response text
+                    print(f"Raw response: {raw_data}")
+                    try:
+                        data = await resp.json()
+                    except Exception as e:
+                        print(f"Error parsing JSON: {e}")
+                        await ctx.send(f"Verification failed. Error parsing JSON: {e}")
+                        return
                     print(data)
                     if 'items' in data and len(data['items']) > 0:
                         if data['items'][0]['api_key'] == api_key:
@@ -97,12 +104,12 @@ class VerificationCog(commands.Cog):
                         await ctx.send("Verification failed. No items found.")
             except aiohttp.ClientConnectionError:
                 await ctx.send("Verification failed. Could not connect to host.")
-            except aiohttp.ClientError:
-                await ctx.send("Verification failed. Client error occurred.")
-            except TypeError:
-                await ctx.send("Verification failed. Type error occurred.")
-            except KeyError:
-                await ctx.send("Verification failed. Key error occurred.")
+            except aiohttp.ClientError as e:
+                await ctx.send(f"Verification failed. Client error occurred: {e}")
+            except TypeError as e:
+                await ctx.send(f"Verification failed. Type error occurred: {e}")
+            except KeyError as e:
+                await ctx.send(f"Verification failed. Key error occurred: {e}")
             await ctx.send("Verification failed. Response data malformed.")
 
     @commands.Cog.listener()
@@ -125,7 +132,15 @@ class VerificationCog(commands.Cog):
                         "auth": "bunnybot2.0"
                     },
                 ) as resp:
-                    data = await resp.json()
+                    raw_data = await resp.text()  # Get raw response text
+                    print(f"Raw response: {raw_data}")
+                    try:
+                        data = await resp.json()
+                    except Exception as e:
+                        print(f"Error parsing JSON: {e}")
+                        if verification_channel:
+                            await verification_channel.send(f"Verification failed. Error parsing JSON: {e}")
+                        return
                     print(data)
                     if 'items' in data and len(data['items']) > 0:
                         if data['items'][0]['api_key'] == api_key:
@@ -164,17 +179,18 @@ class VerificationCog(commands.Cog):
             except aiohttp.ClientConnectionError:
                 if verification_channel:
                     await verification_channel.send("Verification failed. Could not connect to host.")
-            except aiohttp.ClientError:
+            except aiohttp.ClientError as e:
                 if verification_channel:
-                    await verification_channel.send("Verification failed. Client error occurred.")
-            except TypeError:
+                    await verification_channel.send(f"Verification failed. Client error occurred: {e}")
+            except TypeError as e:
                 if verification_channel:
-                    await verification_channel.send("Verification failed. Type error occurred.")
-            except KeyError:
+                    await verification_channel.send(f"Verification failed. Type error occurred: {e}")
+            except KeyError as e:
                 if verification_channel:
-                    await verification_channel.send("Verification failed. Key error occurred.")
+                    await verification_channel.send(f"Verification failed. Key error occurred: {e}")
             if verification_channel:
                 await verification_channel.send("Verification failed. Response data malformed.")
 
 def setup(bot: Red):
     bot.add_cog(VerificationCog(bot))
+
