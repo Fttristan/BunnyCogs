@@ -93,6 +93,7 @@ class VerificationCog(commands.Cog):
                                         embed.add_field(name="Discord User ID", value=ctx.author.id)
                                         embed.add_field(name="Discord User Name", value=str(ctx.author))
                                         embed.add_field(name="VRChat ID", value=data['items'][0]['vrchat_id'])
+                                        embed.add_field(name="VRChat Display Name", value=data['items'][0]['vrchat_name'])
                                         await data_channel.send(embed=embed)
                                 else:
                                     await ctx.send(f"{ctx.author.mention}, please verify yourself at https://verify.vrcband.com/api/v1/lantern/consent/{api_key}")
@@ -162,6 +163,7 @@ class VerificationCog(commands.Cog):
                                         embed.add_field(name="Discord User ID", value=member.id)
                                         embed.add_field(name="Discord User Name", value=str(member))
                                         embed.add_field(name="VRChat ID", value=data['items'][0]['vrchat_id'])
+                                        embed.add_field(name="VRChat Display Name", value=data['items'][0]['vrchat_name'])
                                         await data_channel.send(embed=embed)
                                 else:
                                     if verification_channel:
