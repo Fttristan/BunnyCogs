@@ -15,9 +15,9 @@ class Antiraid:
 
     SERVICE_NAME = "Bunnybot Gban"
     SERVICE_API_KEY_REQUIRED = False
-    SERVICE_URL = "https://api.bunnybot.org/_/"
+    SERVICE_URL = "https://bbapi.chillboiostudios.com/_/"
     SERVICE_HINT = None
-    BASE_URL = "https://api.bunnybot.org/api/collections"
+    BASE_URL = "https://bbapi.chillboiostudios.com/api/collections"
 
     @staticmethod
     async def lookup(user_id: int, _api_key: str) -> LookupResult:
